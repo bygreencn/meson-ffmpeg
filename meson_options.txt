@@ -137,3 +137,6 @@ option('libmp3lame', type: 'feature', value: 'auto')
 option('libmysofa', type: 'feature', value: 'auto')
 option('libx264', type: 'feature', value: 'auto')
 option('libxavs', type: 'feature', value: 'auto')
+
+# other options
+option('cli', type: 'boolean', value: 'true')
