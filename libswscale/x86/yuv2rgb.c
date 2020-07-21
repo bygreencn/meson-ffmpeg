@@ -83,6 +83,7 @@ av_cold SwsFunc ff_yuv2rgb_init_x86(SwsContext *c)
 #if HAVE_X86ASM
     int cpu_flags = av_get_cpu_flags();
 
+#if HAVE_SSSE3
     if (EXTERNAL_SSSE3(cpu_flags)) {
         switch (c->dstFormat) {
         case AV_PIX_FMT_RGB32:
@@ -111,7 +112,9 @@ av_cold SwsFunc ff_yuv2rgb_init_x86(SwsContext *c)
             return yuv420_rgb15_ssse3;
         }
     }
+#endif /* HAVE_SSSE3 */
 
+#if HAVE_MMXEXT
     if (EXTERNAL_MMXEXT(cpu_flags)) {
         switch (c->dstFormat) {
         case AV_PIX_FMT_RGB24:
@@ -120,7 +123,9 @@ av_cold SwsFunc ff_yuv2rgb_init_x86(SwsContext *c)
             return yuv420_bgr24_mmxext;
         }
     }
+#endif /* HAVE_MMXEXT */
 
+#if HAVE_MMX
     if (EXTERNAL_MMX(cpu_flags)) {
         switch (c->dstFormat) {
             case AV_PIX_FMT_RGB32:
@@ -149,6 +154,7 @@ av_cold SwsFunc ff_yuv2rgb_init_x86(SwsContext *c)
                 return yuv420_rgb15_mmx;
         }
     }
+#endif /* HAVE_MMX */
 
 #endif /* HAVE_X86ASM */
     return NULL;
