@@ -3,7 +3,7 @@ stages:
  - 'build'
 
 .build:
-  image: 'debian:sid'
+  image: 'debian:bullseye'
   stage: 'build'
   variables:
     DEPENDENCIES: >
@@ -23,7 +23,7 @@ stages:
 
 .build nodeps:
   extends: '.build'
-  image: 'debian:sid'
+  image: 'debian:bullseye'
   stage: 'build'
   variables:
     MESON_OPTIONS: '--auto-features=disabled'
@@ -35,7 +35,7 @@ stages:
   extends: '.build'
   stage: 'build'
   before_script:
-    - echo "deb-src http://deb.debian.org/debian sid main" >> /etc/apt/sources.list
+    - echo "deb-src http://deb.debian.org/debian bullseye main" >> /etc/apt/sources.list
     - apt-get update
     - apt-get build-dep --yes ffmpeg
     - apt-get install --yes ${DEPENDENCIES}
@@ -44,7 +44,7 @@ stages:
   extends: '.build'
   stage: 'build'
   before_script:
-    - echo "deb-src http://deb.debian.org/debian sid main" >> /etc/apt/sources.list
+    - echo "deb-src http://deb.debian.org/debian bullseye main" >> /etc/apt/sources.list
     - apt-get update
     - apt-get build-dep --yes ffmpeg
     - apt-get install --yes ${DEPENDENCIES}
@@ -56,7 +56,7 @@ no external deps:
 
 no external x86:
   extends: '.build nodeps'
-  image: 'i386/debian:sid'
+  image: 'i386/debian:bullseye'
   stage: 'build'
 
 with deps:
@@ -67,7 +67,7 @@ with deps yasm:
 
 with deps x86:
   extends: '.build withdeps'
-  image: 'i386/debian:sid'
+  image: 'i386/debian:bullseye'
   stage: 'build'
 
 .build windows:
